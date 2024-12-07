@@ -36,7 +36,7 @@ public class Order {
     @Column(name = "phone_number", length = 15)
     private String phoneNumber;
 
-    @ColumnDefault("'pending'")
+    @ColumnDefault("'unaccepted'")
     @Lob
     @Column(name = "status")
     private String status;
