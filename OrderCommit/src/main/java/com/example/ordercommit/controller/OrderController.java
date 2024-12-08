@@ -25,12 +25,12 @@ public class OrderController {
 
     @Autowired
     private OrderRepository orderRepository;
-
+    @Autowired
     private UserRepository userRepository;
     String path="D:\\restore";
     @Operation(description = "发布一个新的订单")
     @PostMapping(path="/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public @ResponseBody String addOrder(@RequestParam(value = "序列号") int userId,
+    public @ResponseBody String addOrder(@RequestParam(value = "用户id") int userId,
                                          @RequestPart("订单照片") MultipartFile file,
                                          @RequestParam(value ="物品名称") String itemname,
                                          @RequestParam(value="起始地点") String start_location,
@@ -75,9 +75,15 @@ public class OrderController {
     @PostMapping(path="test")
     public @ResponseBody String test(){
         orderRepository.save(new Order());
-
+        User user=new User();
+        user.setAccount("11111111");
+        user.setPassword("11111111");
+        user.setUsername("11111111");
+        userRepository.save(user);
         return "success test";
     }
+
+
 
     @PostMapping(path="upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public @ResponseBody String upload(@RequestPart("file") MultipartFile file){
