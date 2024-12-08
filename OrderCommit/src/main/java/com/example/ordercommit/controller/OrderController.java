@@ -8,12 +8,16 @@ import com.example.ordercommit.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,6 +31,8 @@ public class OrderController {
     private OrderRepository orderRepository;
     @Autowired
     private UserRepository userRepository;
+
+    private final ResourceLoader resourceLoader = new DefaultResourceLoader();
     String path="D:\\restore";
     @Operation(description = "发布一个新的订单")
     @PostMapping(path="/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -71,10 +77,10 @@ public class OrderController {
     public @ResponseBody List<Order> getMyOrders(int userid){
         return orderRepository.findByuser_id(userid);
     }
-
+    @Operation(description = "测试别的接口前先用此接口生成部分数据，此接口会在数据库中插入一个User，account，password和Username都是‘11111111’")
     @PostMapping(path="test")
     public @ResponseBody String test(){
-        orderRepository.save(new Order());
+
         User user=new User();
         user.setAccount("11111111");
         user.setPassword("11111111");
@@ -90,5 +96,13 @@ public class OrderController {
         return "success upload";
     }
 
+
+    @Operation(description = "传入订单id，传回对应的图片")
+    @PostMapping(path="/download")
+public @ResponseBody byte[] download( int id) throws IOException{
+        String address=orderRepository.findById(id).get().getItemImageUrl();
+        FileInputStream fis=new FileInputStream(address);
+        return fis.readAllBytes()
+;    }
 
 }
