@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 
 public class HelloController {
-    @Autowired
-    private UserRepository userRepository;
+
     @RequestMapping(value="hello",method= RequestMethod.GET)
     @ResponseBody
     public String hello(){
 
-        userRepository.save(new User());
+
         return "Hello World";
     }
+
+
     }

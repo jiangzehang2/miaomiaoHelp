@@ -93,17 +93,19 @@ public class OrderController {
 
 
     @PostMapping(path="upload",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public @ResponseBody String upload(@RequestPart("file") MultipartFile file){
+    public @ResponseBody String upload(@RequestPart("file") MultipartFile file)
+    {
+
         return "success upload";
     }
 
 
     @Operation(description = "传入订单id，传回对应的图片")
     @PostMapping(path="/download")
-public @ResponseBody byte[] download( int id) throws IOException{
+    public @ResponseBody byte[] download( int id) throws IOException{
         String address=orderRepository.findById(id).get().getItemImageUrl();
         FileInputStream fis=new FileInputStream(address);
-        return fis.readAllBytes()
-;    }
+        return fis.readAllBytes();
+    }
 
 }
