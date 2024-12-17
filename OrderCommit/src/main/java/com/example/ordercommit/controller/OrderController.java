@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Tag(name ="商家管理接口")
@@ -57,7 +59,9 @@ public class OrderController {
         order.setEndLocation(end_location);
         order.setPrice(BigDecimal.valueOf(price));
         order.setAddress(address);
+        order.setStatus("unaccepted");
         order.setItemImageUrl(filePath);
+
 
 
         User user;
@@ -66,18 +70,34 @@ public class OrderController {
         order.setUser(user);
         orderRepository.save(order);
 
+
+
         return "Add New Order";
     }
 
     @PostMapping(path="/all")
-    public @ResponseBody Iterable<Order> getAllOrders(){
-        return orderRepository.findAll();
+    public @ResponseBody List<Order> getAllOrders(@RequestParam(value="状态") String status){
+        System.out.println(status);
+        System.out.println(orderRepository.findByStatus(status));
+        return orderRepository.findByStatus(status);
+    }
+
+    @PostMapping(path="findbyid")
+    public @ResponseBody Order findOrderById(@RequestParam(value="id") int id){
+        return orderRepository.findById(id).get();
     }
 
     @PostMapping(path="myorder")
     public @ResponseBody List<Order> getMyOrders(int userid){
-        return orderRepository.findByuser_id(userid);
+        User user=userRepository.findById(userid).get();
+
+        System.out.println(user);
+        System.out.println(orderRepository.findByUser(user));
+        return orderRepository.findByUser(user);
     }
+
+
+
     @Operation(description = "测试别的接口前先用此接口生成部分数据，此接口会在数据库中插入一个User，account，password和Username都是‘11111111’")
     @PostMapping(path="test")
     public @ResponseBody String test(){

@@ -1,6 +1,8 @@
 package com.example.ordercommit;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Value;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
@@ -14,7 +16,7 @@ public class Order {
     @Column(name = "order_id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
