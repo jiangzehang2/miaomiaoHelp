@@ -18,8 +18,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "item_name", length = 100)
-    private String itemName;
+
 
     @Column(name = "item_image_url")
     private String itemImageUrl;
@@ -33,9 +32,6 @@ public class Order {
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "phone_number", length = 15)
-    private String phoneNumber;
-
     @ColumnDefault("'unaccepted'")
     @Lob
     @Column(name = "status")
@@ -48,6 +44,9 @@ public class Order {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @Column(name = "address")
+    private String address;
 
     public Integer getId() {
         return id;
@@ -65,13 +64,7 @@ public class Order {
         this.user = user;
     }
 
-    public String getItemName() {
-        return itemName;
-    }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
 
     public String getItemImageUrl() {
         return itemImageUrl;
@@ -105,13 +98,6 @@ public class Order {
         this.price = price;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public String getStatus() {
         return status;
@@ -135,6 +121,13 @@ public class Order {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 
 }

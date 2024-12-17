@@ -38,11 +38,11 @@ public class OrderController {
     @PostMapping(path="/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public @ResponseBody String addOrder(@RequestParam(value = "用户id") int userId,
                                          @RequestPart("订单照片") MultipartFile file,
-                                         @RequestParam(value ="物品名称") String itemname,
                                          @RequestParam(value="起始地点") String start_location,
                                          @RequestParam(value="目的地") String end_location,
                                          @RequestParam(value="价格") double price,
-                                         @RequestParam(value="电话号码") String phonenum)
+                                         @RequestParam(value="地址描述") String address
+                                         )
     {   String fileName=file.getOriginalFilename();
         String filePath=path+"/"+fileName;
         try {
@@ -52,11 +52,11 @@ public class OrderController {
         }
 
         Order order = new Order();
-        order.setItemName(itemname);
+
         order.setStartLocation(start_location);
         order.setEndLocation(end_location);
         order.setPrice(BigDecimal.valueOf(price));
-        order.setPhoneNumber(phonenum);
+        order.setAddress(address);
         order.setItemImageUrl(filePath);
 
 
@@ -99,6 +99,25 @@ public class OrderController {
         return "success upload";
     }
 
+    @Operation(description = "更改订单目的地")
+    @PostMapping(path = "/change")
+    public @ResponseBody String change(@RequestParam(value = "订单id") int orderid,
+                                       @RequestParam(value = "目的地址") String address
+    )
+    {
+        Order order=orderRepository.findById(orderid).get();
+        order.setAddress(address);
+        orderRepository.save(order);
+        return "success";
+    }
+
+    @Operation(description = "删除订单")
+    @PostMapping(path="delete")
+    public @ResponseBody String delete(int orderid){
+        Order order=orderRepository.findById(orderid).get();
+        orderRepository.delete(order);
+        return "success";
+    }
 
     @Operation(description = "传入订单id，传回对应的图片")
     @PostMapping(path="/download")
