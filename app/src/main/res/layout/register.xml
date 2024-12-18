@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="15dp"
+    android:background="#DCD9D0"
+    android:scaleType="fitCenter"
+    tools:context=".com.myapplication.myapplication.activity.SecondActivity">
+
+
+    <!--logo-->
+
+    <ImageButton
+        android:id="@+id/logo"
+        android:layout_width="192dp"
+        android:layout_height="192dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="90dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/login_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo" />
+
+
+
+    <!--注册按钮-->
+    <ImageButton
+        android:id="@+id/btnSubmit"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="379dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/register_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/register00" />
+
+    <!--手机号码-->
+    <com.myapplication.myapplication.CustomTextView
+        android:id="@+id/tvUser"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="234dp"
+        android:background="@android:color/transparent"
+        android:text="@string/telephone"
+        android:textColor="#6C6C6C"
+        android:textSize="17sp" />
+
+    <!--密码-->
+    <com.myapplication.myapplication.CustomTextView
+        android:id="@+id/tvPassword"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="299dp"
+        android:background="@android:color/transparent"
+        android:text="@string/password"
+        android:textColor="#6C6C6C"
+        android:textSize="17sp" />
+
+
+
+
+        <!--手机号码输入-->
+        <EditText
+            android:id="@+id/phoneInput1"
+            android:layout_width="210dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="98dp"
+            android:layout_marginTop="256dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="110dp"
+            android:background="@drawable/square0"
+            android:hint=" 请输入手机号码"
+            android:textSize="14sp"
+
+            android:textColorHint="#FFFFFF"
+            />
+
+        <!--密码输入-->
+        <EditText
+            android:id="@+id/passwordInput1"
+            android:layout_width="210dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="98dp"
+            android:layout_marginTop="319dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="110dp"
+            android:background="@drawable/square0"
+            android:hint="  请输入密码"
+            android:inputType="textPassword"
+            android:textSize="14sp"
+            android:textColorHint="#FFFFFF" />
+
+
+</RelativeLayout>

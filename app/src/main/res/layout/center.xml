@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="15dp"
+    android:background="#DCD9D0"
+    android:scaleType="fitCenter"
+    tools:context=".com.myapplication.myapplication.activity.MenuActivity">
+
+    <!--头像上传框-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/avatarView"
+        android:layout_width="101dp"
+        android:layout_height="101dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginTop="54dp"
+        android:background="@drawable/avatar"
+        android:scaleType="fitCenter"
+        app:shapeAppearanceOverlay="@style/CircleImageViewStyle" />
+
+
+    <!--修改头像-->
+    <com.myapplication.myapplication.CustomTextView
+
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="162dp"
+        android:background="@android:color/transparent"
+        android:text="@string/user_picture"
+        android:textColor="#6C6C6C"
+        android:textSize="17sp" />
+
+    <!--账户余额-->
+    <com.myapplication.myapplication.CustomTextView
+        android:id="@+id/tnMoney"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="197dp"
+        android:background="@android:color/transparent"
+        android:text="@string/money"
+        android:textColor="#6C6C6C"
+        android:textSize="17sp" />
+
+    <!--用户昵称-->
+    <com.myapplication.myapplication.CustomTextView
+        android:id="@+id/tnUser"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="260dp"
+        android:background="@android:color/transparent"
+        android:text="@string/user_name"
+        android:textColor="#6C6C6C"
+        android:textSize="17sp" />
+
+    <!--手机号码-->
+    <com.myapplication.myapplication.CustomTextView
+        android:id="@+id/tvUser"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="323dp"
+        android:background="@android:color/transparent"
+        android:text="@string/telephone"
+        android:textColor="#6C6C6C"
+        android:textSize="17sp" />
+
+
+
+    <!--密码-->
+    <com.myapplication.myapplication.CustomTextView
+        android:id="@+id/tvPassword"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="386dp"
+        android:background="@android:color/transparent"
+        android:text="@string/password"
+        android:textColor="#6C6C6C"
+        android:textSize="17sp" />
+
+    <!--编辑按钮-->
+    <ImageButton
+        android:id="@+id/btnSave"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="471dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/register_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/button_save" />
+
+    <!--登出按钮-->
+    <ImageButton
+        android:id="@+id/btnOut"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="534dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/register_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/button_out" />
+
+    <!--刷新按钮
+    <ImageButton
+        android:id="@+id/btnRefresh"
+        android:layout_width="210dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="600dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/register_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/square0" />
+    -->
+
+    <!--充值按钮-->
+    <ImageButton
+        android:id="@+id/showSpinnerButton"
+        android:layout_width="95dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="201dp"
+        android:layout_marginTop="219dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/register_button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/button_topup" />
+
+    <!--账户余额输入-->
+    <TableRow
+        android:id="@+id/row4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/moneyInput"
+            android:layout_width="95dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="219dp"
+            android:background="@drawable/button_empty"
+            android:textColorHint="#FFFFFF"
+            android:textSize="17sp" />
+
+    </TableRow>
+
+
+
+
+    <!--用户昵称输入-->
+    <TableRow
+        android:id="@+id/row1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="210dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="282dp"
+            android:background="@drawable/button_empty"
+            android:textColorHint="#FFFFFF"
+            android:textSize="17sp"
+
+            />
+    </TableRow>
+
+
+
+    <!--手机号码输入-->
+    <TableRow
+        android:id="@+id/row2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <EditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="210dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="345dp"
+            android:background="@drawable/button_empty"
+            android:textColorHint="#FFFFFF"
+            android:textSize="17sp"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"/>
+    </TableRow>
+
+
+
+
+    <!--密码输入-->
+    <TableRow
+        android:id="@+id/row3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="210dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="408dp"
+            android:background="@drawable/button_empty"
+            android:textColorHint="#FFFFFF"
+            android:textSize="17sp" />
+    </TableRow>
+
+    <!-- 容器用于动态加载 Spinner -->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="95dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="201dp"
+        android:layout_marginTop="219dp"
+        android:entries="@array/money_array"
+
+        />
+
+
+
+
+</RelativeLayout>

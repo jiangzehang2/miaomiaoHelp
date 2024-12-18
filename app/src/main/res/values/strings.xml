@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="user_account">账号</string>
+    <string name="password">密码</string>
+    <string name="register_button">注册</string>
+    <string name="login_button">登录</string>
+    <string name="logo">标志</string>
+    <string name="telephone">手机号码</string>
+    <string name="accept">接单</string>
+    <string name="upload">下单</string>
+    <string name="word">文字</string>
+    <string name="user_name">用户昵称</string>
+    <string name="user_picture">头像</string>
+    <string name="user_name1">昵称</string>
+    <string name="back">退出</string>
+    <string name="put">请输入…</string>
+    <string name="money">账户余额</string>
+
+
+
+
+
+    <string-array name="money_array">
+        <item>  </item>
+        <item>10</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
+
+
+</resources>
