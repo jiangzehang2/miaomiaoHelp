@@ -1,6 +1,6 @@
 package com.example.ordercommit.repository;
 
-import com.example.ordercommit.User;
+import com.example.ordercommit.Entity.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

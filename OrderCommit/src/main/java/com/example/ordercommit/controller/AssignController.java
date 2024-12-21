@@ -1,9 +1,9 @@
 package com.example.ordercommit.controller;
 
 
-import com.example.ordercommit.Order;
-import com.example.ordercommit.OrderAssignment;
-import com.example.ordercommit.User;
+import com.example.ordercommit.Entity.Order;
+import com.example.ordercommit.Entity.OrderAssignment;
+import com.example.ordercommit.Entity.User;
 import com.example.ordercommit.repository.OrderAssignmentRepository;
 import com.example.ordercommit.repository.OrderRepository;
 import com.example.ordercommit.repository.UserRepository;
@@ -27,8 +27,8 @@ public class AssignController {
 
     @Operation(description = "接取订单接口")
     @PostMapping(path="/accept")
-    public @ResponseBody String accept(@RequestParam(value = "订单id") int orderid,
-                                       @RequestParam(value = "骑手的用户id") int runnerid
+    public @ResponseBody String accept(@RequestParam(value = "OrderId") int orderid,
+                                       @RequestParam(value = "RunnerId") int runnerid
                                                                 )
     {
        Order order=orderRepository.findById(orderid).get();

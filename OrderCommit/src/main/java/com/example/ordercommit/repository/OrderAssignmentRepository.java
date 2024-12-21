@@ -1,8 +1,7 @@
 package com.example.ordercommit.repository;
 
 
-import com.example.ordercommit.OrderAssignment;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.ordercommit.Entity.OrderAssignment;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

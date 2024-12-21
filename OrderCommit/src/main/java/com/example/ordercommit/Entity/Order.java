@@ -1,8 +1,6 @@
-package com.example.ordercommit;
+package com.example.ordercommit.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Value;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;

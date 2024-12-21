@@ -1,15 +1,15 @@
 package com.example.ordercommit.controller;
 
 
-import com.example.ordercommit.Order;
-import com.example.ordercommit.User;
+import com.example.ordercommit.Entity.Order;
+import com.example.ordercommit.Entity.User;
 import com.example.ordercommit.repository.OrderRepository;
 import com.example.ordercommit.repository.UserRepository;
+import com.example.ordercommit.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -20,8 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Tag(name ="商家管理接口")
@@ -34,16 +32,16 @@ public class OrderController {
     @Autowired
     private UserRepository userRepository;
 
-    private final ResourceLoader resourceLoader = new DefaultResourceLoader();
+
     String path="D:\\restore";
     @Operation(description = "发布一个新的订单")
     @PostMapping(path="/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public @ResponseBody String addOrder(@RequestParam(value = "用户id") int userId,
-                                         @RequestPart("订单照片") MultipartFile file,
-                                         @RequestParam(value="起始地点") String start_location,
-                                         @RequestParam(value="目的地") String end_location,
-                                         @RequestParam(value="价格") double price,
-                                         @RequestParam(value="地址描述") String address
+    public @ResponseBody Response addOrder(@RequestParam(value = "UserID") String userId,
+                                           @RequestParam(value="jieDanDian") String start_location,
+                                           @RequestParam(value="quCanDian") String end_location,
+                                           @RequestParam(value="foodPrice") String price,
+                                           @RequestParam(value="address") String address,
+                                           @RequestPart("image") MultipartFile file
                                          )
     {   String fileName=file.getOriginalFilename();
         String filePath=path+"/"+fileName;
@@ -55,9 +53,21 @@ public class OrderController {
 
         Order order = new Order();
 
+        double Nprice=0.0;
+
+        if(price.equals("￥5")) Nprice=5.0;
+        if(price.equals("￥10")) Nprice=10.0;
+        if(price.equals("￥15")) Nprice=15.0;
+        if(price.equals("￥20")) Nprice=20.0;
+        if(price.equals("￥25")) Nprice=25.0;
+        if(price.equals("￥30")) Nprice=30.0;
+        System.out.println(price);
+        System.out.println(Nprice);
+
+
         order.setStartLocation(start_location);
         order.setEndLocation(end_location);
-        order.setPrice(BigDecimal.valueOf(price));
+        order.setPrice(BigDecimal.valueOf(Nprice));
         order.setAddress(address);
         order.setStatus("unaccepted");
         order.setItemImageUrl(filePath);
@@ -65,29 +75,34 @@ public class OrderController {
 
 
         User user;
-        user= userRepository.findById(userId).get();
+        int id=Integer.parseInt(userId);
+        user= userRepository.findById(id).get();
 
         order.setUser(user);
         orderRepository.save(order);
 
+        Response response = new Response();
 
 
-        return "Add New Order";
+        return response.success(200,"success");
     }
 
-    @PostMapping(path="/all")
-    public @ResponseBody List<Order> getAllOrders(@RequestParam(value="状态") String status){
+    @GetMapping(path="/all")
+    public @ResponseBody List<Order> getAllOrders(@RequestParam(value="status") String status){
         System.out.println(status);
         System.out.println(orderRepository.findByStatus(status));
         return orderRepository.findByStatus(status);
     }
 
-    @PostMapping(path="findbyid")
+    @GetMapping(path="/findbyid")
     public @ResponseBody Order findOrderById(@RequestParam(value="id") int id){
-        return orderRepository.findById(id).get();
+        Order order=orderRepository.findById(id).get();
+
+
+        return order;
     }
 
-    @PostMapping(path="myorder")
+    @PostMapping(path="/myorder")
     public @ResponseBody List<Order> getMyOrders(int userid){
         User user=userRepository.findById(userid).get();
 
@@ -140,8 +155,8 @@ public class OrderController {
     }
 
     @Operation(description = "传入订单id，传回对应的图片")
-    @PostMapping(path="/download")
-    public @ResponseBody byte[] download( int id) throws IOException{
+    @GetMapping(path="/download")
+    public @ResponseBody byte[] download(@RequestParam("id") int id) throws IOException{
         String address=orderRepository.findById(id).get().getItemImageUrl();
         FileInputStream fis=new FileInputStream(address);
         return fis.readAllBytes();

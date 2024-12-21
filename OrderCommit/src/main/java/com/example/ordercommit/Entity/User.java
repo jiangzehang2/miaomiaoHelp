@@ -1,4 +1,4 @@
-package com.example.ordercommit;
+package com.example.ordercommit.Entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
