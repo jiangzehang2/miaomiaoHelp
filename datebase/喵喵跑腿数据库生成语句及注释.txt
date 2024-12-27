@@ -51,3 +51,37 @@ CREATE TABLE posts (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 更新时间
     FOREIGN KEY (user_id) REFERENCES users(user_id) -- 外键约束（关联用户）
 );
+CREATE TABLE likes (
+    like_id INT AUTO_INCREMENT PRIMARY KEY,          -- 点赞记录ID
+    post_id BIGINT NOT NULL,                            -- 关联的帖子ID (外键)
+    user_id INT NOT NULL,                            -- 点赞用户ID (外键)
+    liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    -- 点赞时间
+    UNIQUE (post_id, user_id),                       -- 确保一个用户对一个帖子只能点赞一次
+    FOREIGN KEY (post_id) REFERENCES posts(post_id), -- 外键约束（关联帖子）
+    FOREIGN KEY (user_id) REFERENCES users(user_id)  -- 外键约束（关联用户）
+);
+CREATE TABLE comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,        -- 评论ID
+    post_id BIGINT NOT NULL,                             -- 关联的帖子ID（外键）
+    user_id INT NOT NULL,                             -- 发表评论的用户ID（外键）
+    comment_text TEXT NOT NULL,                       -- 评论内容
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,   -- 评论时间
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 更新时间
+    FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE, -- 关联posts表
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE  -- 关联users表
+);
+CREATE TABLE predefined_addresses (
+    address_id INT AUTO_INCREMENT PRIMARY KEY,     -- 地址ID (主键)
+    address_name VARCHAR(100) NOT NULL             -- 地址名称 (例如：东北门，乔苑等等)
+);
+
+CREATE TABLE user_addresses (
+    user_address_id INT AUTO_INCREMENT PRIMARY KEY,  -- 主键
+    user_id INT NOT NULL,                            -- 用户ID (外键，关联users表)
+    address_id INT NOT NULL,                         -- 地址ID (外键，关联predefined_addresses表)
+    is_default BOOLEAN DEFAULT FALSE,                -- 是否为默认地址
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 创建时间
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 更新时间
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,          -- 关联用户表
+    FOREIGN KEY (address_id) REFERENCES predefined_addresses(address_id) ON DELETE CASCADE -- 关联地址表
+);

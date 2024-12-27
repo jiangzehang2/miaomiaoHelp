@@ -16,6 +16,66 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comments` (
+  `comment_id` int NOT NULL AUTO_INCREMENT COMMENT '评论id',
+  `post_id` bigint NOT NULL COMMENT '关联的帖子id(外键)',
+  `user_id` int NOT NULL COMMENT '发表评论的用户ID（外键）',
+  `comment_text` text NOT NULL COMMENT '评论内容',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '评论时间 ',
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间 ',
+  PRIMARY KEY (`comment_id`),
+  KEY `post_id` (`post_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`) ON DELETE CASCADE,
+  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comments`
+--
+
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `likes`
+--
+
+DROP TABLE IF EXISTS `likes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `likes` (
+  `like_id` int NOT NULL AUTO_INCREMENT COMMENT '点赞记录ID ',
+  `post_id` bigint NOT NULL COMMENT '关联的帖子ID (外键) ',
+  `user_id` int NOT NULL COMMENT ' 点赞用户ID (外键)',
+  `liked_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '点赞时间 ',
+  PRIMARY KEY (`like_id`),
+  UNIQUE KEY `post_id` (`post_id`,`user_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`),
+  CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `likes`
+--
+
+LOCK TABLES `likes` WRITE;
+/*!40000 ALTER TABLE `likes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `likes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `order_assignments`
 --
 
@@ -23,12 +83,12 @@ DROP TABLE IF EXISTS `order_assignments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_assignments` (
-  `assignment_id` int NOT NULL AUTO_INCREMENT,
-  `order_id` int DEFAULT NULL,
-  `runner_id` int DEFAULT NULL,
-  `assigned_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `completed_at` timestamp NULL DEFAULT NULL,
-  `status` enum('assigned','in_progress','completed') DEFAULT 'assigned',
+  `assignment_id` int NOT NULL AUTO_INCREMENT COMMENT '接单ID ',
+  `order_id` int DEFAULT NULL COMMENT '订单ID (外键) ',
+  `runner_id` int DEFAULT NULL COMMENT '跑腿者用户ID (外键) ',
+  `assigned_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '接单时间 ',
+  `completed_at` timestamp NULL DEFAULT NULL COMMENT '完成时间 ',
+  `status` varchar(50) DEFAULT 'assigned' COMMENT '订单状态（已接单/进行中/已完成）',
   PRIMARY KEY (`assignment_id`),
   KEY `order_id` (`order_id`),
   KEY `runner_id` (`runner_id`),
@@ -54,21 +114,21 @@ DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
-  `order_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `item_name` varchar(100) DEFAULT NULL,
-  `item_image_url` varchar(255) DEFAULT NULL,
-  `start_location` varchar(255) DEFAULT NULL,
-  `end_location` varchar(255) DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
-  `phone_number` varchar(15) DEFAULT NULL,
-  `status` enum('pending','completed','cancelled') DEFAULT 'pending',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `order_id` int NOT NULL AUTO_INCREMENT COMMENT '订单ID ',
+  `user_id` int DEFAULT NULL COMMENT '发布者用户ID (外键) ',
+  `item_name` varchar(100) DEFAULT NULL COMMENT '物品名称 ',
+  `item_image_url` varchar(255) DEFAULT NULL COMMENT '物品图片链接 ',
+  `start_location` varchar(255) DEFAULT NULL COMMENT '起始位置 ',
+  `end_location` varchar(255) DEFAULT NULL COMMENT '目的地位置 ',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '订单价格',
+  `phone_number` varchar(15) DEFAULT NULL COMMENT '联系电话（接单后显示给跑腿者） ',
+  `status` enum('pending','completed','cancelled') DEFAULT 'pending' COMMENT '订单状态 ',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布订单时间 ',
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间 ',
   PRIMARY KEY (`order_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单ID ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,11 +148,11 @@ DROP TABLE IF EXISTS `password_changes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `password_changes` (
-  `change_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `old_password` varchar(255) DEFAULT NULL,
-  `new_password` varchar(255) DEFAULT NULL,
-  `changed_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `change_id` int NOT NULL AUTO_INCREMENT COMMENT '修改记录ID ',
+  `user_id` int DEFAULT NULL COMMENT '用户ID (外键) ',
+  `old_password` varchar(255) DEFAULT NULL COMMENT '旧密码 ',
+  `new_password` varchar(255) DEFAULT NULL COMMENT '新密码 ',
+  `changed_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT ' 修改时间\n',
   PRIMARY KEY (`change_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `password_changes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
@@ -116,12 +176,12 @@ DROP TABLE IF EXISTS `posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `posts` (
-  `post_id` bigint NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `text_content` text,
-  `image_url` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `post_id` bigint NOT NULL AUTO_INCREMENT COMMENT '帖子ID ',
+  `user_id` int NOT NULL COMMENT '用户ID (外键)',
+  `text_content` varchar(255) DEFAULT NULL COMMENT '文字内容 ',
+  `image_url` varchar(255) DEFAULT NULL COMMENT '图片链接 ',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间 ',
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间 ',
   PRIMARY KEY (`post_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
@@ -139,6 +199,36 @@ INSERT INTO `posts` VALUES (1,1,'我发送的第一条测试帖子',NULL,'2024-1
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user_addresses`
+--
+
+DROP TABLE IF EXISTS `user_addresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_addresses` (
+  `address_id` int NOT NULL AUTO_INCREMENT COMMENT '地址id(主键)',
+  `user_id` int NOT NULL COMMENT '用户id(外键，关联users表)',
+  `address_name` varchar(100) DEFAULT NULL COMMENT '地址名称',
+  `address_line2` varchar(255) DEFAULT NULL COMMENT '地址额外信息（可选，地址详细信息）',
+  `is_default` tinyint(1) DEFAULT '0' COMMENT '是否为默认地址',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '地址创建时间',
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '地址更新时间',
+  PRIMARY KEY (`address_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_addresses_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_addresses`
+--
+
+LOCK TABLES `user_addresses` WRITE;
+/*!40000 ALTER TABLE `user_addresses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -146,16 +236,16 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `account` varchar(50) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `phone_number` varchar(15) DEFAULT NULL,
-  `avatar_url` varchar(255) DEFAULT NULL,
-  `user_role` enum('publisher','runner') DEFAULT 'publisher',
-  `status` enum('active','inactive') DEFAULT 'active',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `account` varchar(50) NOT NULL COMMENT '账号',
+  `username` varchar(50) NOT NULL COMMENT '用户名 ',
+  `password` varchar(255) NOT NULL COMMENT '密码',
+  `phone_number` varchar(15) DEFAULT NULL COMMENT '手机号码 ',
+  `avatar_url` varchar(255) DEFAULT NULL COMMENT '头像链接 ',
+  `user_role` enum('publisher','runner') DEFAULT 'publisher' COMMENT '用户身份（发布者/跑腿者） ',
+  `status` enum('active','inactive') DEFAULT 'active' COMMENT '用户状态（激活/未激活） ',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间 ',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -179,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-13 23:32:03
+-- Dump completed on 2024-12-27  7:45:53
